@@ -1,7 +1,22 @@
 {% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Shop Homepage{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/style.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>Welcome to Our Boutique Store</h1>
-<p>Explore our exclusive collection!</p>
-<a href="{% url 'shop:all_products' %}">Shop Now</a>
+<div class="shop-container">
+    {% for product in products %}
+    <div class="shop-item">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <p>Price: {{ product.price }}</p>
+        <button>Add to Cart</button>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

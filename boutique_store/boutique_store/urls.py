@@ -7,7 +7,6 @@ from django.http import HttpResponse
 from products.views import ProductListView, ProductDetailView
 from cart.views import CartDetailView, AddToCartView, RemoveFromCartView
 from users.views import login_view, logout_view, register_view
-from core.views import about_view, contact_view
 
 handler404 = 'core.views.handler404'
 handler500 = 'core.views.handler500'
@@ -24,11 +23,11 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('register/', register_view, name='register'),
-    path('about/', about_view, name='about'),
-    path('contact/', contact_view, name='contact'),
     path('admin/', admin.site.urls),
     path('products/', include('products.urls')),
-    path('cart/', include('cart.urls')),
-    path('users/', include('users.urls')),
+    path('cart/', include('cart.urls', namespace='cart')),
+    path('users/', include('users.urls', namespace='users')),
     path('', home, name='home'),
+    path('', include('core.urls', namespace='core')),
+    path('shop/', include('shop.urls', namespace='shop')),
 ]

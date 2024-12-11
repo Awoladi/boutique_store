@@ -1,11 +1,20 @@
 {% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Reviews{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'reviews/style.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>Reviews</h1>
-{% for review in reviews %}
-<div class="review">
-    <h3>Review by {{ review.user.get_full_name }}</h3>
-    <p>{{ review.content }}</p>
+<div class="reviews-container">
+    {% for review in reviews %}
+    <div class="review-item">
+        <h3>{{ review.user.username }}</h3>
+        <p>{{ review.text }}</p>
+        <span class="rating">{{ review.rating }}</span>
+    </div>
+    {% endfor %}
 </div>
-{% endfor %}
 {% endblock %}

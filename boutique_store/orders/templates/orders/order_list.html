@@ -1,13 +1,20 @@
 {% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'orders/style.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>Your Orders</h1>
-<ul>
+<div class="order-container">
     {% for order in orders %}
-    <li>
-        Order {{ order.id }} - Placed on {{ order.date_placed }} - Total ${{ order.total }}
-        <a href="{% url 'order_detail' order.id %}">View Details</a>
-    </li>
+    <div class="order-item">
+        <span class="order-id">Order ID: {{ order.id }}</span>
+        <span class="order-date">{{ order.date }}</span>
+        <span class="order-total">{{ order.total }}</span>
+    </div>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}

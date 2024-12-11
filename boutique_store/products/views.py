@@ -4,11 +4,11 @@ from django.shortcuts import render
 
 class ProductListView(ListView):
     model = Product
-    template_name = 'list.html'
+    template_name = 'products/list.html'
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'detail.html'
+    template_name = 'products/detail.html'
 
 def product_list(request):
     products = Product.objects.all()

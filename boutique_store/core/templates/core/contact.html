@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Contact Us</title>
-</head>
-<body>
+{% extends 'core/base.html' %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<div class="contact-container">
     <h1>Contact Us</h1>
-    <p>Feel free to reach out!</p>
-</body>
-</html>
+    <p>We’d love to hear from you! If you have any questions, feedback, or concerns, please get in touch with us.</p>
+    <form action="#" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
+        </div>
+        <button type="submit" class="btn">Send Message</button>
+    </form>
+</div>
+{% endblock %}

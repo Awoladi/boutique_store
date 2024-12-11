@@ -11,9 +11,9 @@ def login_view(request):
             login(request, user)
             return redirect('home')
         else:
-            return render(request, 'login.html', {'error': 'Invalid username or password'})
+            return render(request, 'users/login.html', {'error': 'Invalid username or password'})
     else:
-        return render(request, 'login.html')
+        return render(request, 'users/login.html')
 
 def logout_view(request):
     logout(request)
@@ -28,4 +28,7 @@ def register_view(request):
             return redirect('home')
     else:
         form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'users/register.html', {'form': form})
+
+def profile(request):
+    return render(request, 'users/user_profile.html')
