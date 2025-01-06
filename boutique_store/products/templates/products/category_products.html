@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ category.name }}</title>
+</head>
+<body>
+    <h1>Products in "{{ category.name }}"</h1>
+    <div class="product-list">
+        {% for product in products %}
+            <div class="product-item">
+                <h3>{{ product.name }}</h3>
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <p>Price: {{ product.price }}</p>
+                <a href="{% url 'products:product_detail' product.id %}">View Details</a>
+            </div>
+        {% empty %}
+            <p>No products available in this category.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

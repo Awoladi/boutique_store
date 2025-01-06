@@ -2,14 +2,75 @@
 
 {% block content %}
 <h1>Products</h1>
+
+<!-- Button to Upload a New Product -->
+<a href="{% url 'products:product_create' %}" class="btn">Upload Product</a>
+
+<!-- Show Filtered Products -->
+<div class="product-list">
+    {% for product in products %}
+        <div class="product">
+            <h2>{{ product.name }}</h2>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px;">
+            {% endif %}
+            <p>{{ product.description }}</p>
+            <p>Price: ${{ product.price }}</p>
+            <p>Uploaded by: {{ product.user.username }}</p>
+            <a href="{% url 'products:product_detail' product.id %}">View details</a>
+        </div>
+    {% empty %}
+        <p>No products available for this category.</p>
+    {% endfor %}
+</div>
+<!-- Filter by Category Section -->
+<h2>Filter by Category</h2>
+<ul>
+    {% for category in categories %}
+        <li><a href="?category={{ category.slug }}">{{ category.name }}</a></li>
+    {% endfor %}
+</ul>
+
+<!-- Displaying Products Section -->
 <div class="product-list">
     {% for product in products %}
     <div class="product">
+        <!-- Display Product Name -->
         <h2>{{ product.name }}</h2>
+
+        <!-- Display Product Image -->
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px;">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+
+        <!-- Display Product Details -->
         <p>{{ product.description }}</p>
         <p>Price: ${{ product.price }}</p>
-        <a href="{% url 'product_detail' product.id %}">View details</a>
+        <p>Uploaded by: {{ product.user.username }}</p>
+
+        <!-- Link to Product Details -->
+        <a href="{% url 'products:product_detail' product.id %}">View details</a>
     </div>
+    {% empty %}
+        <p>No products available for this category.</p>
     {% endfor %}
 </div>
+
+<!-- Pagination Section -->
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+</div>
+
 {% endblock %}

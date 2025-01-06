@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from .models import SiteSettings
+from products.models import Product, Category
 
+def home_page(request):
+    products = Product.objects.all()
+    categories = Category.objects.all()
+    return render(request, 'core/home.html', {'products': products, 'categories': categories})
 def home(request):
     return render(request, 'core/base.html')
 

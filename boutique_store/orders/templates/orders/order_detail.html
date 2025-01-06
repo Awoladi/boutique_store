@@ -1,6 +1,8 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+<a href="{% url 'orders:checkout' %}">Proceed to Checkout</a>
+
 <h1>Order Details</h1>
 <p>Order ID: {{ order.id }}</p>
 <p>Date Placed: {{ order.date_placed }}</p>
