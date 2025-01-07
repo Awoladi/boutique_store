@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="product-detail">
+    <!-- Scaled Product Image -->
+    <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+
+    <div class="product-info">
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <p>Price: ${{ product.price }}</p>
+        <p>Category: {{ product.category.name }}</p>
+        <p>In Stock: {{ product.stock }}</p>
+
+        <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Add to Cart</button>
+        </form>
+
+        <a href="{% url 'products:product_list' %}">Back to Products</a>
+    </div>
+</div>
+<!-- Product Details -->
+<p>{{ product.description }}</p>
+<p>Price: ${{ product.price }}</p>
+<p>Category: {{ product.category.name }}</p>
+<p>In Stock: {{ product.stock }}</p>
+
+<!-- Display Reviews -->
+<h3>Customer Reviews</h3>
+<div class="reviews">
+    {% for review in product.reviews.all %}
+        <p><strong>{{ review.user.username }}</strong>: {{ review.content }}</p>
+        <p>Rating: {{ review.rating }}/5</p>
+    {% empty %}
+        <p>No reviews yet.</p>
+    {% endfor %}
+</div>
+
+<!-- Review Form -->
+<h3>Add a Review</h3>
+<form method="post" action="{% url 'products:submit_review' product.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit Review</button>
+</form>
+{% endblock %}

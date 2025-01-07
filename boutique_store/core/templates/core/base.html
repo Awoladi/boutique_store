@@ -6,6 +6,33 @@
     <title>{% block title %}Awolfy{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <style>
+        .product-detail {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product-image {
+            max-width: 300px;  /* Reduced image size */
+            margin: 20px;
+            border-radius: 10px;
+        }
+        .product-info {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .product-info h2 {
+            margin-top: 0;
+        }
+    </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -25,6 +52,14 @@
             {% endif %}
         </nav>
     </header>
+    <div class="dropdown">
+    <a href="#" class="dropdown-toggle">Categories</a>
+    <ul class="dropdown-menu">
+        {% for category in categories %}
+            <li><a href="{% url 'products:category_products' slug=category.slug %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
 
     <main class="site-content">
         {% block content %}

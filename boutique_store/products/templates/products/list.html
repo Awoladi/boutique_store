@@ -27,10 +27,11 @@
 <h2>Filter by Category</h2>
 <ul>
     {% for category in categories %}
-        <li><a href="?category={{ category.slug }}">{{ category.name }}</a></li>
+        <li><a href="{% url 'products:category_products' category.slug %}">{{ category.name }}</a></li>
     {% endfor %}
-</ul>
 
+
+</ul>
 <!-- Displaying Products Section -->
 <div class="product-list">
     {% for product in products %}

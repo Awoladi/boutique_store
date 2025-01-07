@@ -1,9 +1,30 @@
 from django.views.generic import ListView, DetailView, TemplateView
-from .models import Product, Category
+from .models import Product, Category, Review
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProductForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from products.forms import ReviewForm
+
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView
+from .models import Product, Category
+
+class CategoryProductListView(ListView):
+    model = Product
+    template_name = 'products/category_products.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        category_slug = self.kwargs.get('slug')
+        category = get_object_or_404(Category, slug=category_slug)
+        return Product.objects.filter(category=category)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['category_name'] = get_object_or_404(Category, slug=self.kwargs.get('slug')).name
+        return context
 
 class CategoryListView(TemplateView):
     template_name = 'products/category_list.html'
@@ -53,7 +74,30 @@ class ProductListView(ListView):
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'products/detail.html'
+    template_name = 'products/product_detail.html'
+    context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ReviewForm()  # Form added to context correctly
+        context['reviews'] = self.object.reviews.all()
+        return context
+
+
+def submit_review(request, pk):
+    """Ensure review form works without import errors."""
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = product
+            review.user = request.user
+            review.save()
+            return redirect('products:product_detail', pk=product.pk)
+    else:
+        form = ReviewForm()
+    return render(request, 'products/product_detail.html', {'form': form, 'product': product})
 
 def category_products(request, slug):
     category = get_object_or_404(Category, slug=slug)

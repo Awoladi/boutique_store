@@ -213,3 +213,23 @@ body {
     margin-bottom: 20px;
     text-align: center;
 }
+.reviews {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.reviews p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+form button {
+    background-color: #ff9900;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}

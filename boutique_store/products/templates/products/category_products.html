@@ -1,21 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>{{ category.name }}</title>
-</head>
-<body>
-    <h1>Products in "{{ category.name }}"</h1>
-    <div class="product-list">
-        {% for product in products %}
-            <div class="product-item">
-                <h3>{{ product.name }}</h3>
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                <p>Price: {{ product.price }}</p>
-                <a href="{% url 'products:product_detail' product.id %}">View Details</a>
-            </div>
-        {% empty %}
-            <p>No products available in this category.</p>
-        {% endfor %}
-    </div>
-</body>
-</html>
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1>Products in {{ category_name }}</h1>
+
+<div class="product-list">
+    {% for product in products %}
+        <div class="product">
+            <h2>{{ product.name }}</h2>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px;">
+            {% endif %}
+            <p>{{ product.description }}</p>
+            <p>Price: ${{ product.price }}</p>
+            <p>Uploaded by: {{ product.user.username }}</p>
+            <a href="{% url 'products:product_detail' product.id %}">View details</a>
+        </div>
+    {% empty %}
+        <p>No products available for this category.</p>
+    {% endfor %}
+</div>
+<a href="{% url 'products:product_list' %}">Back to all products</a>
+{% endblock %}
+
