@@ -5,10 +5,37 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProductForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from products.forms import ReviewForm
-
+from pytrends.request import TrendReq
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
-from .models import Product, Category
+import matplotlib.pyplot as plt
+import io
+import matplotlib
+matplotlib.use('Agg')  # Use a non-GUI backend suitable for servers
+from django.http import HttpResponse
+
+def trending_products_chart(request):
+    pytrends = TrendReq(hl='en-US', tz=360)
+    products = ["Python Programming Book", "Laptop - Dell XPS 13", "Test Book"]
+    pytrends.build_payload(kw_list=products, timeframe='today 3-m')
+    data = pytrends.interest_over_time().reset_index()
+
+    plt.figure(figsize=(10, 6))
+    for product in products:
+        plt.plot(data['date'], data[product], label=f'{product} - Trend Increase')
+
+    plt.xlabel('Date')
+    plt.ylabel('Trend Score')
+    plt.title('Trending Products - Increase in Search Trends')
+    plt.legend()
+
+    # Save plot to a bytes buffer and return as an image response
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    plt.close()
+
+    return HttpResponse(buffer.getvalue(), content_type='image/png')
 
 class CategoryProductListView(ListView):
     model = Product
@@ -76,6 +103,7 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'products/product_detail.html'
     context_object_name = 'product'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

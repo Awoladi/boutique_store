@@ -8,6 +8,9 @@ from core import views  # Import views correctly
 from products.views import ProductListView, ProductDetailView
 from cart.views import CartDetailView, AddToCartView, RemoveFromCartView
 from users.views import login_view, logout_view, register_view
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path, include
 
 # Custom error handlers
 handler404 = 'core.views.handler404'
@@ -36,10 +39,10 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('register/', register_view, name='register'),
     path('admin/', admin.site.urls),
-    path('products/', include('products.urls')),
+    path('products/', include('products.urls', namespace='products')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('users/', include('users.urls', namespace='users')),
-    path('shop/', include('shop.urls', namespace='shop')),
+    path('products/', include('shop.urls', namespace='shop')),
 ]
 
 # Serve media files in development

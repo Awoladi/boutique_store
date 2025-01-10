@@ -38,11 +38,14 @@
 <body>
     <header class="site-header">
         <h1><a href="{% url 'core:home_page' %}">Awolfy</a></h1>
+    {% if request.resolver_match.url_name != "product_list" %}
+{% endif %}
         <nav class="site-navigation">
             <a href="{% url 'core:home_page' %}">Start</a>
             <a href="{% url 'products:product_list' %}">Shop</a>
             <a href="{% url 'cart:cart_detail' %}">Cart</a>
-            <a href="{% url 'products:category_list' %}">Categories</a>
+            <a href="{% url 'products:trending_products_chart' %}">Trending Products</a>
+
             {% if user.is_authenticated %}
                 <a href="{% url 'users:profile' %}">Profile</a>
                 <a href="{% url 'logout' %}">Logout</a>
@@ -52,14 +55,6 @@
             {% endif %}
         </nav>
     </header>
-    <div class="dropdown">
-    <a href="#" class="dropdown-toggle">Categories</a>
-    <ul class="dropdown-menu">
-        {% for category in categories %}
-            <li><a href="{% url 'products:category_products' slug=category.slug %}">{{ category.name }}</a></li>
-        {% endfor %}
-    </ul>
-    </div>
 
     <main class="site-content">
         {% block content %}

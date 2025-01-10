@@ -17,3 +17,8 @@ def index(request):
 
 def cart_detail(request):
     return render(request, 'cart/cart_detail.html', {'cart': cart})
+
+
+def shop_view(request):
+    products = Product.objects.all()
+    return render(request, 'shop/index.html', {'products': products})

@@ -6,7 +6,6 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'shop/style.css' %}">
 {% endblock %}
-
 {% block content %}
 <div class="shop-container">
     {% for product in products %}
@@ -17,6 +16,28 @@
         <p>Price: {{ product.price }}</p>
         <button>Add to Cart</button>
     </div>
+    {% endfor %}
+</div>
+    <!-- Products Section (Cleaned and Fixed) -->
+<h2>Products</h2>
+<div class="product-list" style="display: flex; flex-wrap: wrap; gap: 20px;">
+    {% for product in products %}
+        {% if not request.GET.category or request.GET.category == product.category.slug %}
+        <div class="product" style="border: 1px solid #ddd; padding: 15px; border-radius: 10px; width: 220px;">
+            <h2>{{ product.name }}</h2>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px;">
+            {% else %}
+                <p>No image available.</p>
+            {% endif %}
+            <p>{{ product.description }}</p>
+            <p><strong>Price:</strong> ${{ product.price }}</p>
+            <p><strong>Uploaded by:</strong> {{ product.user.username }}</p>
+            <a href="{% url 'products:product_detail' product.id %}">View details</a>
+        </div>
+        {% endif %}
+    {% empty %}
+        <p>No products available.</p>
     {% endfor %}
 </div>
 {% endblock %}

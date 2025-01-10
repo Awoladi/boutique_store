@@ -3,26 +3,38 @@
 {% block content %}
 <h1>Welcome to Awolfy!</h1>
 
-<h2>Filter by Category</h2>
-<ul>
-    {% for category in categories %}
-    <li><a href="?category={{ category.slug }}">{{ category.name }}</a></li>
-    {% endfor %}
-</ul>
 
+
+    <!-- Filter Section (Enhanced Styling for Categories) -->
+<h2 style="font-size: 28px;">Filter by Category</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+    {% for category in categories %}
+        <div style="border: 2px solid #000; padding: 15px; border-radius: 10px; background-color: #f3f3f3; text-align: center;">
+            <a href="?category={{ category.slug }}" style="font-size: 20px; color: #215230; font-weight: bold; text-decoration: none;">
+                {{ category.name }}
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Products Section (Cleaned and Fixed) -->
 <h2>Products</h2>
-<div class="product-list">
+<div class="product-list" style="display: flex; flex-wrap: wrap; gap: 20px;">
     {% for product in products %}
-        <div class="product">
+        {% if not request.GET.category or request.GET.category == product.category.slug %}
+        <div class="product" style="border: 1px solid #ddd; padding: 15px; border-radius: 10px; width: 220px;">
             <h2>{{ product.name }}</h2>
             {% if product.image %}
                 <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px;">
+            {% else %}
+                <p>No image available.</p>
             {% endif %}
             <p>{{ product.description }}</p>
-            <p>Price: ${{ product.price }}</p>
-            <p>Uploaded by: {{ product.user.username }}</p>
+            <p><strong>Price:</strong> ${{ product.price }}</p>
+            <p><strong>Uploaded by:</strong> {{ product.user.username }}</p>
             <a href="{% url 'products:product_detail' product.id %}">View details</a>
         </div>
+        {% endif %}
     {% empty %}
         <p>No products available.</p>
     {% endfor %}

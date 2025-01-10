@@ -12,12 +12,14 @@ from .views import (
     category_create,
     category_edit,
     category_delete,
+    trending_products_chart,
 )
 
 app_name = 'products'
 
 urlpatterns = [
     # Product-related routes
+    path('trending-books/', trending_products_chart, name='trending_products_chart'),
     path('', ProductListView.as_view(), name='product_list'),  # Product list view
     path('category/<slug:slug>/', ProductListView.as_view(), name='category_products'),
     path('categories/', CategoryListView.as_view(), name='category_list'),  # Category list page# Category filter view

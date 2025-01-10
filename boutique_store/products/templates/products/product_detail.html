@@ -3,7 +3,11 @@
 {% block content %}
 <div class="product-detail">
     <!-- Scaled Product Image -->
+    {% if product.image %}
     <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+{% else %}
+    <p>No image available for this product.</p>
+{% endif %}
 
     <div class="product-info">
         <h2>{{ product.name }}</h2>

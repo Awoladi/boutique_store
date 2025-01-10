@@ -9,7 +9,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('home')
+            return redirect('core:home_page')  # Use the correct namespace if needed
         else:
             return render(request, 'users/login.html', {'error': 'Invalid username or password'})
     else:
@@ -17,7 +17,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('core:home_page')
 
 def register_view(request):
     if request.method == 'POST':

@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1>Trending Products - Increase in Search Trends</h1>
+<p>Explore the recent increase in search trends for selected products using Matplotlib.</p>
+
+<!-- Display the Matplotlib graph as an image -->
+<img src="{% url 'products:trending_products_chart' %}" alt="Trending Products Graph" style="width:80%; border: 2px solid black; border-radius: 10px; margin-top: 20px;">
+
+<!-- Optionally include a button to refresh the graph -->
+<p>
+    <a href="{% url 'products:trending_products_chart' %}" target="_blank">
+        <button style="padding: 10px; border-radius: 5px; cursor: pointer;">
+            Open Graph in New Tab
+        </button>
+    </a>
+</p>
+
+<!-- Optional Download Button -->
+<p>
+    <a href="{% url 'products:trending_products_chart' %}" download="Trending_Products_Graph.png">
+        <button style="padding: 10px; border-radius: 5px; cursor: pointer;">
+            Download Graph
+        </button>
+    </a>
+</p>
+
+{% endblock %}
