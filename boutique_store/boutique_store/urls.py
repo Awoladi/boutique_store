@@ -26,7 +26,7 @@ app_name = 'core'  # Ensure namespace is defined once here only.
 
 # Define urlpatterns
 urlpatterns = [
-    path('', views.home_page, name='home_page'),
+    path('', views.home_page, name='home'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('', include('core.urls', namespace='core')),
