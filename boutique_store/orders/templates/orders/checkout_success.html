@@ -1,8 +1,10 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h1>Checkout Successful</h1>
-<p>Thank you for your order!</p>
-<p>Your order ID is {{ order.id }}.</p>
-<a href="{% url 'products:product_list' %}">Continue Shopping</a>
+<div style="margin: 50px auto; max-width: 800px; background-color: #292929; color: #fff; padding: 20px; border-radius: 10px; text-align: center;">
+    <h1 style="color: #8e44ad;">Checkout Successful</h1>
+    <p>Thank you for your order!</p>
+    <p>Your order ID is <strong>{{ order.id }}</strong>.</p>
+    <a href="{% url 'products:product_list' %}" style="background-color: #8e44ad; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Continue Shopping</a>
+</div>
 {% endblock %}

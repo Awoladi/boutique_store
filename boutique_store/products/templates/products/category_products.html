@@ -1,24 +1,24 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h1>Products in {{ category_name }}</h1>
-
-<div class="product-list">
-    {% for product in products %}
-        <div class="product">
-            <h2>{{ product.name }}</h2>
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px;">
-            {% endif %}
-            <p>{{ product.description }}</p>
-            <p>Price: ${{ product.price }}</p>
-            <p>Uploaded by: {{ product.user.username }}</p>
-            <a href="{% url 'products:product_detail' product.id %}">View details</a>
-        </div>
-    {% empty %}
-        <p>No products available for this category.</p>
-    {% endfor %}
+<div style="margin: 50px auto; max-width: 800px;">
+    <h1 style="text-align: center; color: #8e44ad;">Products in {{ category_name }}</h1>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px;">
+        {% for product in products %}
+            <div style="background-color: #292929; color: #fff; padding: 20px; border-radius: 10px; width: 250px; text-align: center;">
+                <h2 style="color: #8e44ad;">{{ product.name }}</h2>
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100%; border-radius: 10px;">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+                <p style="margin: 10px 0;">{{ product.description }}</p>
+                <p><strong>Price:</strong> ${{ product.price }}</p>
+                <a href="{% url 'products:product_detail' product.id %}" style="display: inline-block; margin-top: 10px; color: #8e44ad; text-decoration: none;">View details</a>
+            </div>
+        {% empty %}
+            <p>No products available for this category.</p>
+        {% endfor %}
+    </div>
 </div>
-<a href="{% url 'products:product_list' %}">Back to all products</a>
 {% endblock %}
-

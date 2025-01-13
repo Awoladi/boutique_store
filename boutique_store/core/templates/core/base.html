@@ -7,30 +7,72 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
     <style>
-        .product-detail {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 20px;
+        /* Global Styles */
+        body {
+            background-color: #1a1a1a;
+            color: #f3f3f3;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header.site-header {
+            background-color: #292929;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header.site-header h1 a {
+            color: #8e44ad;
+            text-decoration: none;
+            font-size: 48px;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        nav.site-navigation {
+            background-color: #292929;
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        nav.site-navigation a {
+            display: inline-block;
+            background-color: #8e44ad; /* Button background color */
+            color: #f3f3f3; /* Button text color */
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        nav.site-navigation a:hover {
+            background-color: #6c3da4; /* Darker purple for hover */
+            transform: scale(1.1); /* Slight zoom effect on hover */
+        }
+
+        .site-content {
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .product-image {
-            max-width: 300px;  /* Reduced image size */
-            margin: 20px;
-            border-radius: 10px;
-        }
-        .product-info {
-            flex: 1;
+
+        footer.site-footer {
+            background-color: #292929;
+            text-align: center;
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: #f9f9f9;
+            color: #f3f3f3;
+            font-size: 14px;
         }
-        .product-info h2 {
-            margin-top: 0;
+
+        footer.site-footer a {
+            color: #8e44ad;
+            text-decoration: none;
+        }
+
+        footer.site-footer a:hover {
+            color: #f3f3f3;
         }
     </style>
     {% block extra_css %}{% endblock %}
@@ -38,23 +80,22 @@
 <body>
     <header class="site-header">
         <h1><a href="{% url 'core:home_page' %}">Awolfy</a></h1>
-    {% if request.resolver_match.url_name != "product_list" %}
-{% endif %}
-        <nav class="site-navigation">
-            <a href="{% url 'core:home_page' %}">Start</a>
-            <a href="{% url 'products:product_list' %}">Shop</a>
-            <a href="{% url 'cart:cart_detail' %}">Cart</a>
-            <a href="{% url 'products:trending_products_chart' %}">Trending Products</a>
-
-            {% if user.is_authenticated %}
-                <a href="{% url 'users:profile' %}">Profile</a>
-                <a href="{% url 'logout' %}">Logout</a>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'users:register' %}">Register</a>
-            {% endif %}
-        </nav>
     </header>
+
+    <nav class="site-navigation">
+        <a href="{% url 'core:home_page' %}">Shop</a>
+        <a href="{% url 'products:product_list' %}">Create</a>
+        <a href="{% url 'cart:cart_detail' %}">Cart</a>
+        <a href="{% url 'products:trending_products_chart' %}">Trending Products</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'users:profile' %}">Profile</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'users:register' %}">Register</a>
+        {% endif %}
+    </nav>
 
     <main class="site-content">
         {% block content %}

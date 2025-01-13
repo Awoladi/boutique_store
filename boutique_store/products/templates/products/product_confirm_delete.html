@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h1>Delete Product</h1>
-<p>Are you sure you want to delete "{{ product.name }}"?</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn">Confirm</button>
-</form>
-<a href="{% url 'products:product_list' %}">Cancel</a>
+<div class="content-container" style="background-color: #121212; padding: 20px; border-radius: 10px; color: #fff;">
+    <h1 style="color: #8e44ad;">Delete Product</h1>
+    <p>Are you sure you want to delete <strong style="color: #ff6b6b;">{{ product.name }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger" style="background-color: #e74c3c; border: none; color: white; padding: 10px 20px; border-radius: 5px;">Confirm</button>
+        <a href="{% url 'products:product_list' %}" class="btn btn-secondary" style="background-color: #8e44ad; border: none; color: white; padding: 10px 20px; border-radius: 5px;">Cancel</a>
+    </form>
+</div>
 {% endblock %}
-
-</html>

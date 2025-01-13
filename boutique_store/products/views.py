@@ -44,8 +44,12 @@ class CategoryProductListView(ListView):
 
     def get_queryset(self):
         category_slug = self.kwargs.get('slug')
+        print(f"Category Slug: {category_slug}")  # Debugging slug
         category = get_object_or_404(Category, slug=category_slug)
-        return Product.objects.filter(category=category)
+        print(f"Category: {category}")  # Debugging category object
+        products = Product.objects.filter(category=category)
+        print(f"Products: {products}")  # Debugging products
+        return products
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -128,12 +132,16 @@ def submit_review(request, pk):
     return render(request, 'products/product_detail.html', {'form': form, 'product': product})
 
 def category_products(request, slug):
+    print(f"Slug: {slug}")  # Debug slug
     category = get_object_or_404(Category, slug=slug)
+    print(f"Category: {category}")  # Debug category
     products = Product.objects.filter(category=category)
+    print(f"Products: {products}")  # Debug products
     return render(request, 'products/category_products.html', {
         'category': category,
         'products': products
     })
+
 
 @login_required
 def product_create(request):

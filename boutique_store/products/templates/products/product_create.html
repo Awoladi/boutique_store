@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h1>Upload Product</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Upload</button>
-</form>
+<div class="content-container" style="background-color: #121212; padding: 20px; border-radius: 10px; color: #fff;">
+    <h1 style="color: #8e44ad;">Upload Product</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary" style="background-color: #8e44ad; border: none; color: white; padding: 10px 20px; border-radius: 5px;">Upload</button>
+    </form>
+</div>
 {% endblock %}
-
-</html>

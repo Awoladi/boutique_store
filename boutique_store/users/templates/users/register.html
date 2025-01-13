@@ -1,25 +1,29 @@
 {% extends 'core/base.html' %}
 
+{% block title %}Register{% endblock %}
+
 {% block content %}
-<h1>Register</h1>
-<form method="post" action="{% url 'register' %}">
-    {% csrf_token %}
-    <div class="form-group">
-            <label for="id_username">Username</label>
-            <input type="text" name="username" id="id_username" required>
+<div class="register-container" style="background-color: #333; padding: 30px; border-radius: 10px; max-width: 600px; margin: 50px auto; color: #fff;">
+    <h2 style="text-align: center; color: #9c27b0;">Register</h2>
+    <form method="post" action="{% url 'register' %}" style="margin-top: 20px;">
+        {% csrf_token %}
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="id_username" style="color: #fff;">Username:</label>
+            <input type="text" name="username" id="id_username" required style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
         </div>
-        <div class="form-group">
-            <label for="id_email">Email</label>
-            <input type="email" name="email" id="id_email" required>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="id_email" style="color: #fff;">Email:</label>
+            <input type="email" name="email" id="id_email" required style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
         </div>
-        <div class="form-group">
-            <label for="id_password1">Password</label>
-            <input type="password" name="password1" id="id_password1" required>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="id_password1" style="color: #fff;">Password:</label>
+            <input type="password" name="password1" id="id_password1" required style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
         </div>
-        <div class="form-group">
-            <label for="id_password2">Confirm Password</label>
-            <input type="password" name="password2" id="id_password2" required>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="id_password2" style="color: #fff;">Confirm Password:</label>
+            <input type="password" name="password2" id="id_password2" required style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
         </div>
-        <button type="submit" class="btn">Register</button>
-</form>
+        <button type="submit" class="btn penguin-btn" style="width: 100%; padding: 10px; background-color: #9c27b0; color: #fff; border: none; border-radius: 5px;">Register</button>
+    </form>
+</div>
 {% endblock %}

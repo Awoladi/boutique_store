@@ -3,17 +3,17 @@
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
-<div class="profile-container">
-    <h2>User Profile</h2>
-    <div class="profile-info">
-        <p><strong>Username:</strong> {{ user.username }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
+<div class="profile-container" style="background-color: #333; padding: 50px; border-radius: 15px; max-width: 800px; margin: 80px auto; color: #fff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+    <h1 style="text-align: center; color: #9c27b0; font-size: 36px; margin-bottom: 40px;">User Profile</h1>
+    <div class="profile-info" style="font-size: 20px; line-height: 2; padding: 20px; background-color: #292929; border-radius: 10px;">
+        <p><strong style="color: #9c27b0;">Username:</strong> {{ user.username }}</p>
+        <p><strong style="color: #9c27b0;">E-mail:</strong> {{ user.email }}</p>
     </div>
-
-    <h3>Actions</h3>
-    <ul class="profile-actions">
-        <li><a href="{% url 'logout' %}" class="btn btn-danger">Logout</a></li>
-        <li><a href="#" class="btn btn-secondary">Edit Profile (Coming Soon)</a></li>
+    <h3 style="margin-top: 30px; color: #9c27b0; font-size: 24px;">Actions</h3>
+    <ul class="profile-actions" style="list-style: none; padding: 0; margin-top: 20px;">
+        <li>
+            <a href="{% url 'logout' %}" class="btn btn-danger" style="display: inline-block; background-color: #e53935; color: #fff; padding: 15px 20px; text-decoration: none; font-size: 18px; border-radius: 10px; text-align: center;">Logout</a>
+        </li>
     </ul>
 </div>
 {% endblock %}

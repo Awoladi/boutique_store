@@ -5,25 +5,22 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'users/style.css' %}">
-
 {% endblock %}
 
 {% block content %}
-<div class="login-container">
-    <h2>Login</h2>
-    <form method="post">
+<div class="login-container" style="background-color: #333; padding: 30px; border-radius: 10px; max-width: 400px; margin: 50px auto; color: #fff;">
+    <h2 style="text-align: center; color: #9c27b0;">Login</h2>
+    <form method="post" style="margin-top: 20px;">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="id_username">Username</label>
-            <input type="text" id="id_username" name="username" required>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="id_username" style="color: #fff;">Username:</label>
+            <input type="text" id="id_username" name="username" required style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
         </div>
-        <div class="form-group">
-            <label for="id_password">Password</label>
-            <input type="password" id="id_password" name="password" required>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="id_password" style="color: #fff;">Password:</label>
+            <input type="password" id="id_password" name="password" required style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
         </div>
-        <button type="submit" class="btn">Login</button>
+        <button type="submit" class="btn penguin-btn" style="width: 100%; padding: 10px; background-color: #9c27b0; color: #fff; border: none; border-radius: 5px;">Login</button>
     </form>
 </div>
-
 {% endblock %}
-

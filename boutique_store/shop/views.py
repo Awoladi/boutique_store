@@ -2,6 +2,7 @@
 # Create your views here.
 from django.shortcuts import render
 from .models import Product, Category
+from products.models import Product, Category
 
 def product_list(request):
     products = Product.objects.all()
@@ -20,5 +21,14 @@ def cart_detail(request):
 
 
 def shop_view(request):
-    products = Product.objects.all()
-    return render(request, 'shop/index.html', {'products': products})
+    category_slug = request.GET.get('category')
+    if category_slug:
+        products = Product.objects.filter(category__slug=category_slug)
+    else:
+        products = Product.objects.all()
+    categories = Category.objects.all()
+    return render(request, 'shop/index.html', {
+        'products': products,
+        'categories': categories,
+    })
+

@@ -1,77 +1,25 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h1>Products</h1>
-
-<!-- Button to Upload a New Product -->
-<a href="{% url 'products:product_create' %}" class="btn">Upload Product</a>
-
-<!-- Show Filtered Products -->
-<div class="product-list">
-    {% for product in products %}
-        <div class="product">
-            <h2>{{ product.name }}</h2>
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px;">
-            {% endif %}
-            <p>{{ product.description }}</p>
-            <p>Price: ${{ product.price }}</p>
-            <p>Uploaded by: {{ product.user.username }}</p>
-            <a href="{% url 'products:product_detail' product.id %}">View details</a>
-        </div>
-    {% empty %}
-        <p>No products available for this category.</p>
-    {% endfor %}
-</div>
-<!-- Filter by Category Section -->
-<h2>Filter by Category</h2>
-<ul>
-    {% for category in categories %}
-        <li><a href="{% url 'products:category_products' category.slug %}">{{ category.name }}</a></li>
-    {% endfor %}
-
-
-</ul>
-<!-- Displaying Products Section -->
-<div class="product-list">
-    {% for product in products %}
-    <div class="product">
-        <!-- Display Product Name -->
-        <h2>{{ product.name }}</h2>
-
-        <!-- Display Product Image -->
-        {% if product.image %}
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px;">
-        {% else %}
-            <p>No image available</p>
-        {% endif %}
-
-        <!-- Display Product Details -->
-        <p>{{ product.description }}</p>
-        <p>Price: ${{ product.price }}</p>
-        <p>Uploaded by: {{ product.user.username }}</p>
-
-        <!-- Link to Product Details -->
-        <a href="{% url 'products:product_detail' product.id %}">View details</a>
+<div style="margin: 50px auto; max-width: 800px;">
+    <h1 style="text-align: center; color: #8e44ad;">Create</h1>
+    <a href="{% url 'products:product_create' %}" style="display: block; text-align: center; margin: 20px auto; background-color: #8e44ad; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Upload Product</a>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px;">
+        {% for product in products %}
+            <div style="background-color: #292929; color: #fff; padding: 20px; border-radius: 10px; width: 250px; text-align: center;">
+                <h2 style="color: #8e44ad;">{{ product.name }}</h2>
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100%; border-radius: 10px;">
+                {% else %}
+                    <p>No image available.</p>
+                {% endif %}
+                <p style="margin: 10px 0;">{{ product.description }}</p>
+                <p><strong>Price:</strong> ${{ product.price }}</p>
+                <a href="{% url 'products:product_detail' product.id %}" style="color: #8e44ad; text-decoration: none;">View details</a>
+            </div>
+        {% empty %}
+            <p></p>
+        {% endfor %}
     </div>
-    {% empty %}
-        <p>No products available for this category.</p>
-    {% endfor %}
 </div>
-
-<!-- Pagination Section -->
-<div class="pagination">
-    {% if page_obj.has_previous %}
-        <a href="?page=1">First</a>
-        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-    {% endif %}
-
-    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">Next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-    {% endif %}
-</div>
-
 {% endblock %}

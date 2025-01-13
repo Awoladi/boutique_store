@@ -1,46 +1,50 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Cart{% endblock %}
-
 {% block content %}
-<div class="cart-container">
-    <h2>Your Cart</h2>
+<div style="margin: 50px auto; max-width: 800px; background-color: #292929; color: #fff; padding: 20px; border-radius: 10px;">
+    <h2 style="text-align: center; color: #8e44ad; margin-bottom: 20px;">Your Cart</h2>
     {% if cart_items %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in cart_items %}
-                <tr>
-                    <td>{{ item.product.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>${{ item.product.price }}</td>
-                    <td>
-                        <!-- Remove Button -->
-                        <form method="post" action="{% url 'cart:remove_from_cart' item.product.id %}">
-                            {% csrf_token %}
-                            <button type="submit">Remove</button>
-                        </form>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px; text-align: center;">
+        <thead>
+            <tr style="border-bottom: 2px solid #8e44ad;">
+                <th style="padding: 15px; color: #8e44ad;">Product</th>
+                <th style="padding: 15px; color: #8e44ad;">Quantity</th>
+                <th style="padding: 15px; color: #8e44ad;">Price</th>
+                <th style="padding: 15px; color: #8e44ad;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr style="border-bottom: 1px solid #555;">
+                <td style="padding: 15px;">{{ item.product.name }}</td>
+                <td style="padding: 15px;">{{ item.quantity }}</td>
+                <td style="padding: 15px;">${{ item.product.price }}</td>
+                <td style="padding: 15px;">
+                    <form method="post" action="{% url 'cart:remove_from_cart' item.product.id %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background-color: #c0392b; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-right: 5px;">Remove</button>
+                    </form>
+                    <form method="post" action="{% url 'cart:add_to_cart' item.product.id %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background-color: #8e44ad; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Add More</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p style="margin-top: 20px; text-align: right; font-size: 18px; font-weight: bold; color: #fff;">Total: ${{ total_price }}</p>
 
-                        <!-- Add More Button -->
-                        <form method="post" action="{% url 'cart:add_to_cart' item.product.id %}">
-                            {% csrf_token %}
-                            <button type="submit">Add More</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <p><strong>Total:</strong> ${{ total_price }}</p>
+    <!-- Checkout Button -->
+    <div style="text-align: right; margin-top: 20px;">
+        <a href="{% url 'checkout:checkout_page' %}"
+           style="background-color: #8e44ad; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; cursor: pointer;">
+            Proceed to Checkout
+        </a>
+    </div>
+
     {% else %}
-        <p>Your cart is empty.</p>
+    <p style="text-align: center; margin-top: 20px;">Your cart is empty.</p>
     {% endif %}
 </div>
 {% endblock %}

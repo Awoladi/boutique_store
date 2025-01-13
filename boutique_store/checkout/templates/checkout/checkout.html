@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div style="margin: 50px auto; max-width: 800px; background-color: #292929; color: #fff; padding: 20px; border-radius: 10px;">
+    <h2 style="text-align: center; color: #8e44ad; margin-bottom: 20px;">Checkout</h2>
+    <form method="post" action="{% url 'checkout:checkout_page' %}" style="margin-top: 20px;">
+        {% csrf_token %}
+        <!-- Name Field -->
+        <div style="margin-bottom: 20px;">
+            <label for="name" style="display: block; margin-bottom: 10px; font-weight: bold;">Name:</label>
+            <input type="text" id="name" name="name" required
+                style="width: 100%; padding: 10px; border: none; border-radius: 5px; background-color: #444; color: #fff;">
+        </div>
+
+        <!-- Address Field -->
+        <div style="margin-bottom: 20px;">
+            <label for="address" style="display: block; margin-bottom: 10px; font-weight: bold;">Address:</label>
+            <textarea id="address" name="address" rows="3" required
+                style="width: 100%; padding: 10px; border: none; border-radius: 5px; background-color: #444; color: #fff;"></textarea>
+        </div>
+
+        <!-- Payment Method -->
+        <div style="margin-bottom: 20px;">
+            <label for="payment" style="display: block; margin-bottom: 10px; font-weight: bold;">Payment Method:</label>
+            <select id="payment" name="payment_method" required
+                style="width: 100%; padding: 10px; border: none; border-radius: 5px; background-color: #444; color: #fff;">
+                <option value="credit_card">Credit Card</option>
+                <option value="paypal">PayPal</option>
+                <option value="bank_transfer">Bank Transfer</option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div style="text-align: center; margin-top: 30px;">
+            <button type="submit"
+                style="background-color: #8e44ad; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; border: none; cursor: pointer;">
+                Place Order
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

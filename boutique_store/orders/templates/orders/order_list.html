@@ -1,33 +1,21 @@
 {% extends 'core/base.html' %}
-{% load static %}
-
-{% block title %}My Orders{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'orders/style.css' %}">
-{% endblock %}
 
 {% block content %}
-<h1>My Orders</h1>
-<ul>
-    {% for order in orders %}
-        <li>
-            Order ID: {{ order.id }} - Total: ${{ order.total_price }} - Date: {{ order.created_at }}
-            <ul>
-                {% for item in order.items.all %}
-                    <li>{{ item.quantity }} x {{ item.product.name }} (${{ item.price }})</li>
-                {% endfor %}
-            </ul>
-        </li>
-    {% endfor %}
-</ul>
-<div class="order-container">
-    {% for order in orders %}
-    <div class="order-item">
-        <span class="order-id">Order ID: {{ order.id }}</span>
-        <span class="order-date">{{ order.date }}</span>
-        <span class="order-total">{{ order.total }}</span>
-    </div>
-    {% endfor %}
+<div style="margin: 50px auto; max-width: 800px; background-color: #292929; color: #fff; padding: 20px; border-radius: 10px;">
+    <h1 style="color: #8e44ad;">My Orders</h1>
+    <ul style="list-style: none; padding: 0;">
+        {% for order in orders %}
+            <li style="margin-bottom: 20px; padding: 10px; background-color: #383838; border-radius: 5px;">
+                <p><strong>Order ID:</strong> {{ order.id }}</p>
+                <p><strong>Total:</strong> ${{ order.total_price }}</p>
+                <p><strong>Date:</strong> {{ order.created_at }}</p>
+                <ul style="list-style: disc; margin-left: 20px;">
+                    {% for item in order.items.all %}
+                        <li>{{ item.quantity }} x {{ item.product.name }} (${{ item.price }})</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

@@ -8,13 +8,18 @@
 {% endblock %}
 
 {% block content %}
-<div class="reviews-container">
-    {% for review in reviews %}
-    <div class="review-item">
-        <h3>{{ review.user.username }}</h3>
-        <p>{{ review.text }}</p>
-        <span class="rating">{{ review.rating }}</span>
+<div class="reviews-container" style="max-width: 1200px; margin: 0 auto; padding: 20px; background-color: #1e1e1e; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
+    <h2 style="color: #fff; text-align: center; margin-bottom: 20px;">Product Reviews</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        {% for review in reviews %}
+        <div class="review-item" style="flex: 1 1 calc(33% - 20px); background-color: #2a2a2a; border: 1px solid #444; padding: 15px; border-radius: 8px; color: #fff;">
+            <h3 style="margin: 0; font-size: 18px; color: #f5f5f5;">{{ review.user.username }}</h3>
+            <p style="margin: 10px 0; font-size: 16px;">{{ review.text }}</p>
+            <span class="rating" style="color: #ffd700; font-size: 16px;">Rating: {{ review.rating }}/5</span>
+        </div>
+        {% empty %}
+        <p style="color: #fff;">No reviews available for this product.</p>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

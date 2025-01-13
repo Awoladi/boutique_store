@@ -1,42 +1,37 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h1>Welcome to Awolfy!</h1>
+<div style="font-family: 'Bebas Neue', sans-serif; margin: 0; padding: 0; background-color: #1a1a1a; color: #fff; line-height: 1.6;">
 
+    <!-- Filter Section -->
+    <h2 style="font-size: 28px; margin-bottom: 20px; color: #fff; padding-left: 20px;">Filter by Category</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px;">
+        {% for category in categories %}
+        <a href="?category={{ category.slug }}" style="padding: 8px 18px; font-size: 16px; font-weight: bold; background-color: #444; color: white; border: 2px solid #8e44ad; border-radius: 20px; text-decoration: none; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;">
+            {{ category.name }}
+        </a>
+        {% endfor %}
+    </div>
 
-
-    <!-- Filter Section (Enhanced Styling for Categories) -->
-<h2 style="font-size: 28px;">Filter by Category</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 20px;">
-    {% for category in categories %}
-        <div style="border: 2px solid #000; padding: 15px; border-radius: 10px; background-color: #f3f3f3; text-align: center;">
-            <a href="?category={{ category.slug }}" style="font-size: 20px; color: #215230; font-weight: bold; text-decoration: none;">
-                {{ category.name }}
-            </a>
-        </div>
-    {% endfor %}
-</div>
-
-<!-- Products Section (Cleaned and Fixed) -->
-<h2>Products</h2>
-<div class="product-list" style="display: flex; flex-wrap: wrap; gap: 20px;">
-    {% for product in products %}
-        {% if not request.GET.category or request.GET.category == product.category.slug %}
-        <div class="product" style="border: 1px solid #ddd; padding: 15px; border-radius: 10px; width: 220px;">
-            <h2>{{ product.name }}</h2>
+    <!-- Products Section -->
+    <h2 style="font-size: 28px; margin-top: 40px; color: #fff; padding-left: 20px;">Products</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; padding: 20px;">
+        {% for product in products %}
+        <div style="border: 1px solid #333; border-radius: 10px; padding: 15px; width: 280px; background-color: #292929; text-align: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+            <h3 style="font-size: 20px; font-weight: bold; color: #fff;">{{ product.name }}</h3>
             {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 200px;">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
             {% else %}
-                <p>No image available.</p>
+            <p style="color: #bbb;">No image available.</p>
             {% endif %}
-            <p>{{ product.description }}</p>
-            <p><strong>Price:</strong> ${{ product.price }}</p>
-            <p><strong>Uploaded by:</strong> {{ product.user.username }}</p>
-            <a href="{% url 'products:product_detail' product.id %}">View details</a>
+            <p style="font-size: 14px; color: #ccc;">{{ product.description }}</p>
+            <p style="font-size: 16px; color: #8e44ad; font-weight: bold;">Price: ${{ product.price }}</p>
+            <p style="font-size: 14px; color: #bbb;">Uploaded by: {{ product.user.username }}</p>
+            <a href="{% url 'products:product_detail' product.id %}" style="display: inline-block; margin-top: 10px; padding: 10px 15px; font-size: 16px; font-weight: bold; color: white; background-color: #8e44ad; border-radius: 5px; text-decoration: none; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); transition: background-color 0.3s ease, transform 0.2s ease;">View details</a>
         </div>
-        {% endif %}
-    {% empty %}
-        <p>No products available.</p>
-    {% endfor %}
+        {% empty %}
+        <p style="text-align: center; font-size: 16px; color: #ccc;">No products available.</p>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

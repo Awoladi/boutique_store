@@ -3,24 +3,24 @@
 {% block title %}Contact Us{% endblock %}
 
 {% block content %}
-<div class="contact-container">
-    <h1>Contact Us</h1>
-    <p>We’d love to hear from you! If you have any questions, feedback, or concerns, please get in touch with us.</p>
-    <form action="#" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Your Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
-        </div>
-        <div class="form-group">
-            <label for="message">Your Message:</label>
-            <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
-        </div>
-        <button type="submit" class="btn">Send Message</button>
-    </form>
+<div class="contact-container" style="background-color: #1c1c1e; color: #f3f3f3; padding: 40px; border-radius: 8px; max-width: 800px; margin: auto;">
+  <h1 style="text-align: center; color: #8e44ad;">Contact Us</h1>
+  <p style="text-align: center;">We’d love to hear from you! Please fill out the form below to get in touch.</p>
+  <form action="#" method="post" style="margin-top: 20px;">
+    {% csrf_token %}
+    <div style="margin-bottom: 15px;">
+      <label for="name">Your Name:</label><br>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
+    </div>
+    <div style="margin-bottom: 15px;">
+      <label for="email">Your Email:</label><br>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
+    </div>
+    <div style="margin-bottom: 15px;">
+      <label for="message">Your Message:</label><br>
+      <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required style="width: 100%; padding: 10px; border-radius: 5px; border: none;"></textarea>
+    </div>
+    <button type="submit" style="background-color: #8e44ad; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Send Message</button>
+  </form>
 </div>
 {% endblock %}

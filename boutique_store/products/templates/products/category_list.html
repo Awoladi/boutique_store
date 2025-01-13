@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h1>Categories</h1>
-<ul>
-    {% for category in categories %}
-        <li>
-            <a href="{% url 'products:category_products' category.slug %}">{{ category.name }}</a>
-        </li>
-    {% endfor %}
-</ul>
+<div style="margin: 50px auto; max-width: 800px; text-align: center;">
+    <h1 style="color: #8e44ad;">Categories</h1>
+    <ul style="list-style: none; padding: 0;">
+        {% for category in categories %}
+            <li style="margin: 10px 0;">
+                <a href="{% url 'products:category_products' category.slug %}" style="color: #fff; text-decoration: none; padding: 10px 15px; background-color: #292929; border-radius: 5px; display: inline-block;">{{ category.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

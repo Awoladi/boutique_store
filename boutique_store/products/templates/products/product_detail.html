@@ -1,51 +1,57 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="product-detail">
-    <!-- Scaled Product Image -->
-    {% if product.image %}
-    <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
-{% else %}
-    <p>No image available for this product.</p>
-{% endif %}
-
-    <div class="product-info">
-        <h2>{{ product.name }}</h2>
+<div style="margin: 50px auto; max-width: 800px; background-color: #292929; color: #fff; padding: 20px; border-radius: 10px;">
+    <div style="text-align: center;">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100%; border-radius: 10px; margin-bottom: 20px;">
+        {% else %}
+            <p>No image available for this product.</p>
+        {% endif %}
+        <h2 style="color: #8e44ad;">{{ product.name }}</h2>
         <p>{{ product.description }}</p>
-        <p>Price: ${{ product.price }}</p>
-        <p>Category: {{ product.category.name }}</p>
-        <p>In Stock: {{ product.stock }}</p>
+        <p><strong>Price:</strong> ${{ product.price }}</p>
+        <p><strong>Category:</strong> {{ product.category.name }}</p>
+        <p><strong>In Stock:</strong> {{ product.stock }}</p>
+    </div>
+    <form action="{% url 'cart:add_to_cart' product.id %}" method="post" style="text-align: center; margin-top: 20px;">
+        {% csrf_token %}
+        <button type="submit" style="background-color: #8e44ad; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Add to Cart</button>
+    </form>
+    <a href="{% url 'products:product_list' %}" style="display: block; text-align: center; margin-top: 20px; color: #8e44ad; text-decoration: none;">Back to Products</a>
 
-        <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
+    <!-- Reviews Section -->
+    <div style="margin-top: 40px; border-top: 1px solid #444; padding-top: 20px;">
+        <h3 style="color: #8e44ad; text-align: center;">Customer Reviews</h3>
+        {% if product.reviews.all %}
+            <div style="margin-top: 20px;">
+                {% for review in product.reviews.all %}
+                    <div style="margin-bottom: 20px; padding: 15px; background-color: #121212; border-radius: 10px;">
+                        <p><strong style="color: #8e44ad;">{{ review.user.username }}</strong></p>
+                        <p>{{ review.content }}</p>
+                        <p><span style="color: #ffd700;">Rating: {{ review.rating }}/5</span></p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="text-align: center; color: #999;">No reviews yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Add a Review Section -->
+    <div style="margin-top: 40px; border-top: 1px solid #444; padding-top: 20px;">
+        <h3 style="color: #8e44ad; text-align: center;">Add a Review</h3>
+        <form method="post" action="{% url 'products:submit_review' product.id %}" style="margin-top: 20px;">
             {% csrf_token %}
-            <button type="submit">Add to Cart</button>
+            <textarea name="content" placeholder="Write your review..." style="width: 100%; background-color: #121212; color: #fff; padding: 10px; border: 1px solid #8e44ad; border-radius: 5px; resize: vertical;"></textarea>
+            <div style="margin-top: 10px; text-align: center;">
+                <label for="rating" style="color: #8e44ad;">Rating:</label>
+                <input type="number" name="rating" id="rating" min="1" max="5" style="background-color: #121212; color: #fff; border: 1px solid #8e44ad; border-radius: 5px; padding: 5px;">
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button type="submit" style="background-color: #8e44ad; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Submit Review</button>
+            </div>
         </form>
-
-        <a href="{% url 'products:product_list' %}">Back to Products</a>
     </div>
 </div>
-<!-- Product Details -->
-<p>{{ product.description }}</p>
-<p>Price: ${{ product.price }}</p>
-<p>Category: {{ product.category.name }}</p>
-<p>In Stock: {{ product.stock }}</p>
-
-<!-- Display Reviews -->
-<h3>Customer Reviews</h3>
-<div class="reviews">
-    {% for review in product.reviews.all %}
-        <p><strong>{{ review.user.username }}</strong>: {{ review.content }}</p>
-        <p>Rating: {{ review.rating }}/5</p>
-    {% empty %}
-        <p>No reviews yet.</p>
-    {% endfor %}
-</div>
-
-<!-- Review Form -->
-<h3>Add a Review</h3>
-<form method="post" action="{% url 'products:submit_review' product.id %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit Review</button>
-</form>
 {% endblock %}
