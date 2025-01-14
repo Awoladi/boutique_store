@@ -41,6 +41,10 @@ def trending_products_chart(request):
             pytrends.build_payload(kw_list=[product], timeframe='today 3-m')
             data = pytrends.interest_over_time().reset_index()
 
+            # **Check if 'date' column exists before using it**
+            if 'date' not in data.columns or data[product].isnull().all():
+                continue  # Skip this product if no data is returned
+
             if date_data is None:
                 date_data = data['date']  # Save the date for the x-axis
 
