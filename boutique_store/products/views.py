@@ -1,4 +1,6 @@
 from django.views.generic import ListView, DetailView, TemplateView
+from matplotlib.pyplot import xticks
+
 from .models import Product, Category, Review
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,22 +16,62 @@ import matplotlib
 matplotlib.use('Agg')  # Use a non-GUI backend suitable for servers
 from django.http import HttpResponse
 
+
 def trending_products_chart(request):
     pytrends = TrendReq(hl='en-US', tz=360)
-    products = ["Python Programming Book", "Laptop - Dell XPS 13", "Test Book"]
-    pytrends.build_payload(kw_list=products, timeframe='today 3-m')
-    data = pytrends.interest_over_time().reset_index()
 
-    plt.figure(figsize=(10, 6))
-    for product in products:
-        plt.plot(data['date'], data[product], label=f'{product} - Trend Increase')
+    # Get the number of products to display from the dropdown (default 3)
+    num_products = int(request.GET.get('num_products', 3))
+    num_products = max(1, min(num_products, 5))  # Limit between 1 and 5 products
 
+    # Fetch all product names from the database
+    products = list(Product.objects.values_list('name', flat=True))
+
+    if len(products) < num_products:
+        return HttpResponse(f"Not enough products to analyze. ({len(products)} available)", content_type="text/plain")
+
+    # Store data for normalization and trend differences
+    trend_differences = {}
+    normalized_data = {}
+    date_data = None  # To store the date data separately
+
+    try:
+        # Fetch data individually for each product and normalize the trends
+        for product in products:
+            pytrends.build_payload(kw_list=[product], timeframe='today 3-m')
+            data = pytrends.interest_over_time().reset_index()
+
+            if date_data is None:
+                date_data = data['date']  # Save the date for the x-axis
+
+            if product in data.columns and not data[product].isnull().all():
+                # Normalize each product individually
+                max_value = data[product].max()
+                normalized_data[product] = (data[product] / max_value) * 100
+                trend_differences[product] = data[product].iloc[-1] - data[product].iloc[0]
+
+        # Select the top N products with the highest trend increase
+        top_products = sorted(trend_differences, key=trend_differences.get, reverse=True)[:num_products]
+
+    except Exception as e:
+        return HttpResponse(f"Error fetching Google Trends data: {e}")
+
+    # Plot the normalized data for the selected products with proper date formatting
+    plt.figure(figsize=(12, 6))
+    for product in top_products:
+        plt.plot(date_data, normalized_data[product], label=f'{product} - Normalized Trend Increase')
+
+    # Adjust the x-axis to show dates clearly
+    plt.gcf().autofmt_xdate()
     plt.xlabel('Date')
-    plt.ylabel('Trend Score')
-    plt.title('Trending Products - Increase in Search Trends')
-    plt.legend()
+    plt.ylabel('Normalized Trend Score')
+    plt.title(f'Top {num_products} Trending Products by Increase in Search Interest')
+    xticks(rotation=30)
 
-    # Save plot to a bytes buffer and return as an image response
+    # **Legend in Upper Left**
+    plt.legend(loc='upper left')
+
+    # Save the plot to a buffer and return the image
     buffer = io.BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
@@ -37,6 +79,10 @@ def trending_products_chart(request):
 
     return HttpResponse(buffer.getvalue(), content_type='image/png')
 
+
+# **New View for the Dropdown Menu**
+def trending_products_page(request):
+    return render(request, 'products/trending_products_dropdown.html')
 class CategoryProductListView(ListView):
     model = Product
     template_name = 'products/category_products.html'

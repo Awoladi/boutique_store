@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2 style="font-size: 28px; margin-bottom: 20px; color: #fff; padding-left: 20px;">Filter by Category</h2>
+<form method="get" action="{% url 'products:trending_products_chart' %}" style="padding-left: 20px; margin-bottom: 20px;">
+    <label for="num_products" style="font-size: 18px; margin-right: 10px; color: #fff;">Number of Products:</label>
+    <select name="num_products" id="num_products" style="padding: 8px; border-radius: 10px; border: 1px solid #ddd;">
+        <option value="1">1 Product</option>
+        <option value="2">2 Products</option>
+        <option value="3" selected>3 Products</option>
+        <option value="4">4 Products</option>
+        <option value="5">5 Products</option>
+    </select>
+    <button type="submit" style="margin-left: 10px; padding: 8px 12px; border-radius: 10px; background-color: #8e44ad; color: white; border: none; cursor: pointer;">
+        Update Graph
+    </button>
+</form>
+
+<!-- Display the Plot -->
+<img src="{% url 'products:trending_products_chart' %}?num_products=3" alt="Trending Products Graph" style="width:80%; border: 2px solid black; border-radius: 10px; margin-top: 20px; padding-left: 20px;">
+{% endblock %}

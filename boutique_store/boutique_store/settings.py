@@ -33,6 +33,8 @@ SITE_ID = 1
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Debug mode must be enabled for development
+DEBUG = True
 
 # Application definition
 
@@ -48,7 +50,6 @@ INSTALLED_APPS = [
     # Third-party apps
     'core',
     'cart',
-    'checkout',
     'shop',
     'reviews',
     'orders',

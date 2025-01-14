@@ -86,7 +86,7 @@
         <a href="{% url 'core:home_page' %}">Shop</a>
         <a href="{% url 'products:product_list' %}">Create</a>
         <a href="{% url 'cart:cart_detail' %}">Cart</a>
-        <a href="{% url 'products:trending_products_chart' %}">Trending Products</a>
+        <a href="{% url 'products:trending_products_page' %}">Trending Products</a>
 
         {% if user.is_authenticated %}
             <a href="{% url 'users:profile' %}">Profile</a>
@@ -109,4 +109,5 @@
         </p>
     </footer>
 </body>
+
 </html>

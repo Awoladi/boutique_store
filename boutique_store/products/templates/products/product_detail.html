@@ -14,6 +14,16 @@
         <p><strong>Category:</strong> {{ product.category.name }}</p>
         <p><strong>In Stock:</strong> {{ product.stock }}</p>
     </div>
+
+    <!-- Edit and Delete Buttons -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'shop:edit_product' product.id %}" style="background-color: #8e44ad; padding: 10px 20px; border-radius: 5px; color: white; text-decoration: none;">Edit Product</a>
+        <form action="{% url 'shop:delete_product' product.id %}" method="POST" style="display:inline; margin-left: 10px;">
+            {% csrf_token %}
+            <button type="submit" style="background-color: #8e44ad; padding: 10px 20px; border-radius: 5px; border: none; color: white; cursor: pointer;">Delete Product</button>
+        </form>
+    </div>
+
     <form action="{% url 'cart:add_to_cart' product.id %}" method="post" style="text-align: center; margin-top: 20px;">
         {% csrf_token %}
         <button type="submit" style="background-color: #8e44ad; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Add to Cart</button>
