@@ -18,40 +18,62 @@
 
         header.site-header {
             background-color: #292929;
-            padding: 40px;
-            text-align: center;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        header.site-header h1 a {
+        .logo {
+            margin-right: auto;  /* Ensures the logo stays on the left */
+        }
+
+        .logo a {
             color: #8e44ad;
             text-decoration: none;
             font-size: 48px;
             font-family: 'Bebas Neue', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        nav.site-navigation {
-            background-color: #292929;
-            text-align: center;
-            padding: 10px 0;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+        .center-nav {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+            gap: 10px;  /* Adjust spacing between nav links */
         }
 
-        nav.site-navigation a {
-            display: inline-block;
-            background-color: #8e44ad; /* Button background color */
-            color: #f3f3f3; /* Button text color */
+        .center-nav a {
+            background-color: #8e44ad;
+            color: #f3f3f3;
             text-decoration: none;
             font-size: 18px;
             font-weight: bold;
-            margin: 5px 10px;
             padding: 10px 20px;
             border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
-        nav.site-navigation a:hover {
-            background-color: #6c3da4; /* Darker purple for hover */
-            transform: scale(1.1); /* Slight zoom effect on hover */
+        .center-nav a:hover {
+            background-color: #6c3da4;
+            transform: scale(1.1);
+        }
+
+        .auth-links {
+            margin-left: auto;  /* Pushes auth links to the right */
+        }
+
+        .auth-links a {
+            color: #f3f3f3;
+            background-color: #8e44ad;
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .auth-links a:hover {
+            background-color: #6c3da4;
         }
 
         .site-content {
@@ -79,26 +101,29 @@
 </head>
 <body>
     <header class="site-header">
-        <h1><a href="{% url 'core:home_page' %}">Awolfy</a></h1>
+        <div class="logo">
+            <a href="{% url 'core:home_page' %}">Awolfy</a>
+        </div>
+        <nav class="center-nav">
+            <a href="{% url 'core:home_page' %}">Shop</a>
+            <a href="{% url 'products:product_list' %}">Create</a>
+            <a href="{% url 'cart:cart_detail' %}">Cart</a>
+            <a href="{% url 'products:trending_products_page' %}">Trending Products</a>
+        </nav>
+        <div class="auth-links">
+            {% if user.is_authenticated %}
+                <a href="{% url 'users:profile' %}">Profile</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'users:register' %}">Register</a>
+            {% endif %}
+        </div>
     </header>
-
-    <nav class="site-navigation">
-        <a href="{% url 'core:home_page' %}">Shop</a>
-        <a href="{% url 'products:product_list' %}">Create</a>
-        <a href="{% url 'cart:cart_detail' %}">Cart</a>
-        <a href="{% url 'products:trending_products_page' %}">Trending Products</a>
-
-        {% if user.is_authenticated %}
-            <a href="{% url 'users:profile' %}">Profile</a>
-            <a href="{% url 'logout' %}">Logout</a>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'users:register' %}">Register</a>
-        {% endif %}
-    </nav>
 
     <main class="site-content">
         {% block content %}
+        <!-- Content goes here -->
         {% endblock %}
     </main>
 
@@ -109,5 +134,4 @@
         </p>
     </footer>
 </body>
-
 </html>
