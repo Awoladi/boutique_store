@@ -5,7 +5,16 @@ from products.models import Product, Category
 def home_page(request):
     products = Product.objects.all()
     categories = Category.objects.all()
-    return render(request, 'core/home.html', {'products': products, 'categories': categories})
+    category_slug = request.GET.get('category', None)  # Get the category from query parameters
+
+    if category_slug:  # If a category is specified, filter the products
+        products = products.filter(category__slug=category_slug)
+
+    return render(request, 'core/home.html', {
+        'products': products,
+        'categories': categories
+    })
+
 def home(request):
     return render(request, 'core/base.html')
 
@@ -27,3 +36,5 @@ def handler404(request, exception):
 def handler500(request):
     """Return custom 500 Internal Server Error page."""
     return render(request, 'core/500.html', {}, status=500)
+
+

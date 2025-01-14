@@ -1,4 +1,3 @@
-
 # Create your views here.
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Category
@@ -7,9 +6,23 @@ from .forms import ProductForm
 
 
 def product_list(request):
-    products = Product.objects.all()
-    categories = Category.objects.all()
-    return render(request, 'shop/detail.html', {'products': products, 'categories': categories})
+    # Get the 'category' parameter from the query string
+    category_slug = request.GET.get('category')
+    categories = Category.objects.all()  # Get all categories
+
+    if category_slug:
+        # If a category is selected, filter products by this category
+        category = get_object_or_404(Category, slug=category_slug)
+        products = Product.objects.filter(category=category)
+    else:
+        # If no category is selected, display all products
+        products = Product.objects.all()
+
+    context = {
+        'categories': categories,
+        'products': products,
+    }
+    return render(request, 'products/product_list.html', context)
 
 
 def home_view(request):
@@ -30,7 +43,7 @@ def shop_view(request):
     if category_slug:  # Apply filter if a category is selected
         products = products.filter(category__slug=category_slug)
 
-    return render(request, 'shop/index.html', {
+    return render(request, 'core/home.html', {
         'products': products,
         'categories': categories
     })
